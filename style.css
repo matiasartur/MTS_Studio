@@ -893,6 +893,59 @@ a {
   white-space: nowrap;               /* "R$" e o valor sempre na mesma linha */
 }
 
+/* --- Promoção (Black Friday) --- */
+
+/* Selo acima do título da seção */
+.promo-selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 7px 14px;
+  border-radius: var(--raio-pilula);
+  border: 1px solid rgba(255, 159, 10, 0.35);
+  background: rgba(255, 159, 10, 0.12);
+  color: #ffb340;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Bolinha que pulsa, chamando atenção */
+.promo-ponto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff9f0a;
+  animation: promo-pulsa 1.6s ease-in-out infinite;
+}
+
+@keyframes promo-pulsa {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 159, 10, 0.6); }
+  50%      { box-shadow: 0 0 0 6px rgba(255, 159, 10, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promo-ponto { animation: none; }
+}
+
+/* Preço antigo riscado + preço novo, juntos */
+.plano-valores {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.plano-preco-antigo {
+  font-size: 14px;
+  color: var(--cor-texto-apagado);
+}
+
+.plano-preco-antigo s {
+  text-decoration-thickness: 1.5px;
+}
+
 /* "R$" menor que o número */
 .plano-moeda {
   font-size: .55em;
@@ -923,6 +976,7 @@ a {
 }
 
 .plano--destaque .plano-descricao { color: var(--cor-texto-suave); }
+.plano--destaque .plano-preco-antigo { color: var(--cor-texto-suave); }
 .plano--destaque .plano-itens     { color: var(--cor-texto-2); }
 
 /* --- Carrossel de planos ---
