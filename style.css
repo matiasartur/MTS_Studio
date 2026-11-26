@@ -1131,11 +1131,25 @@ a {
 
 .footer-nav {
   display: flex;
-  gap: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
 }
 
 .footer-nav a {
   color: var(--cor-texto-2);
+  transition: color .25s;
+}
+
+/* Link do Instagram: ícone + @ */
+.footer-instagram {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-nav a:hover {
+  color: var(--cor-texto);
 }
 
 
