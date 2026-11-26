@@ -887,9 +887,17 @@ a {
 }
 
 .plano-preco {
-  font-size: 40px;
+  font-size: clamp(32px, 9vw, 40px); /* diminui um pouco em telas pequenas */
   font-weight: 700;
   letter-spacing: -0.03em;
+  white-space: nowrap;               /* "R$" e o valor sempre na mesma linha */
+}
+
+/* "R$" menor que o número */
+.plano-moeda {
+  font-size: .55em;
+  font-weight: 600;
+  letter-spacing: 0;
 }
 
 .plano-itens {
@@ -1143,6 +1151,9 @@ a {
   .nav,
   .cta-top  { display: none; }
   .menu-btn { display: flex; }
+
+  /* Cards de planos: menos espaço interno para o conteúdo caber */
+  .plano { padding: 36px 24px; }
 
   /* Mockup do hero: cantos um pouco menores, proporcionais à tela pequena */
   .mockup         { border-radius: 16px; }
