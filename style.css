@@ -910,6 +910,20 @@ a {
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  position: relative;
+  overflow: hidden;                                 /* prende o reflexo dentro da pílula */
+  animation: promo-brilho 1.6s ease-in-out infinite; /* a pílula inteira brilha */
+}
+
+/* Reflexo de luz que atravessa a pílula de tempos em tempos */
+.promo-selo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 214, 140, 0.2) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: promo-reflexo 3.2s ease-in-out infinite;
+  pointer-events: none;
 }
 
 /* Bolinha que pulsa, chamando atenção */
@@ -923,10 +937,23 @@ a {
 
 @keyframes promo-pulsa {
   0%, 100% { box-shadow: 0 0 0 0 rgba(255, 159, 10, 0.6); }
-  50%      { box-shadow: 0 0 0 6px rgba(255, 159, 10, 0); }
+  50%      { box-shadow: 0 0 0 7px rgba(255, 159, 10, 0); }
+}
+
+/* Para mais ou menos brilho, ajuste o "12px" (tamanho) e o "0.22" (intensidade) */
+@keyframes promo-brilho {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 159, 10, 0);     border-color: rgba(255, 159, 10, 0.35); }
+  50%      { box-shadow: 0 0 12px 0 rgba(255, 159, 10, 0.22); border-color: rgba(255, 159, 10, 0.55); }
+}
+
+@keyframes promo-reflexo {
+  0%, 55%  { transform: translateX(-120%); }
+  85%, 100% { transform: translateX(120%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .promo-selo,
+  .promo-selo::after,
   .promo-ponto { animation: none; }
 }
 
