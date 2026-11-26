@@ -5,6 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MTS Studio — Landing pages sob medida</title>
   <meta name="description" content="Criação de landing pages premium: design autoral, código rápido e foco em conversão.">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Ícone da aba do navegador -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Prévia do link ao compartilhar (WhatsApp, Instagram, LinkedIn, Facebook...)
+       IMPORTANTE: quando o site estiver no ar, troque "https://SEU-DOMINIO" pelo
+       endereço real. O WhatsApp só mostra a imagem com o endereço completo. -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="MTS Studio">
+  <meta property="og:title" content="MTS Studio — Landing pages sob medida">
+  <meta property="og:description" content="Design premium, código impecável e uma narrativa pensada para transformar visitantes em clientes.">
+  <meta property="og:url" content="https://SEU-DOMINIO/">
+  <meta property="og:image" content="https://SEU-DOMINIO/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="MTS Studio — Sua marca merece uma página à altura.">
+
+  <!-- Prévia no X (Twitter) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MTS Studio — Landing pages sob medida">
+  <meta name="twitter:description" content="Design premium, código impecável e uma narrativa pensada para transformar visitantes em clientes.">
+  <meta name="twitter:image" content="https://SEU-DOMINIO/og-image.png">
 
   <!-- Fonte Inter (Google Fonts) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -334,9 +359,14 @@
         <p class="contato-texto">Conte sobre o seu projeto. Respondemos em até 2 horas úteis.</p>
 
         <div class="acoes">
-          <!-- WhatsApp: 55 (Brasil) + 61 (DDD) + número -->
-          <a class="btn btn-primario" href="https://wa.me/5561992160707" target="_blank" rel="noopener">Conversar no WhatsApp</a>
-          <a class="btn btn-texto" href="mailto:arturmatias0505@gmail.com">Enviar e-mail ›</a>
+          <!-- WhatsApp: 55 (Brasil) + 61 (DDD) + número.
+               O "?text=" já deixa esta mensagem escrita para o cliente (codificada para URL):
+               "Olá, MTS Studio! 🚀 Vi o site de vocês e quero uma página que transforme visitantes
+               em clientes. Quero sair na frente da concorrência: podemos conversar sobre o meu projeto hoje?" -->
+          <a class="btn btn-primario" href="https://wa.me/5561992160707?text=Ol%C3%A1%2C%20MTS%20Studio!%20%F0%9F%9A%80%20Vi%20o%20site%20de%20voc%C3%AAs%20e%20quero%20uma%20p%C3%A1gina%20que%20transforme%20visitantes%20em%20clientes.%20Quero%20sair%20na%20frente%20da%20concorr%C3%AAncia%3A%20podemos%20conversar%20sobre%20o%20meu%20projeto%20hoje%3F" target="_blank" rel="noopener">Conversar no WhatsApp</a>
+
+          <!-- E-mail: o "?subject=" já preenche o assunto -->
+          <a class="btn btn-texto" href="mailto:arturmatias0505@gmail.com?subject=Quero%20uma%20landing%20page%20que%20venda%20mais">Enviar e-mail ›</a>
         </div>
       </div>
     </section>
