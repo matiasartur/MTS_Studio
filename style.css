@@ -1150,12 +1150,23 @@ a {
 
   /* Card "Perfeita em qualquer tela": animação em cima, texto embaixo */
   .card--destaque {
-    grid-template-columns: 1fr;
+    /* minmax(0, 1fr): a coluna NÃO cresce quando o aparelho fica largo na animação
+       (com "1fr" ela esticava e o texto embaixo mudava de lugar) */
+    grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
       "aparelho"
       "texto";
   }
   .card--destaque .aparelho-palco {
     width: 100%;
+    min-width: 0;
+  }
+}
+
+/* Celulares estreitos (ex.: iPhone): o aparelho fica um pouco menor para caber com folga.
+   O "scale" só muda o desenho, não o espaço ocupado, então nada ao redor se mexe. */
+@media (max-width: 430px) {
+  .aparelho-palco {
+    transform: scale(.82);
   }
 }
