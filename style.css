@@ -466,16 +466,15 @@ a {
   max-width: 1040px;
   border-radius: 24px;
   background: var(--cor-fundo-cinza);
-  padding: 2.5% 2.5% 0;
+  padding: 2.5%;    /* moldura em volta da janela, inclusive embaixo */
   box-shadow: 0 30px 80px var(--cor-sombra);
 }
 
 .mockup-janela {
   background: var(--cor-superficie);
-  border-radius: 14px 14px 0 0;
+  border-radius: 14px; /* janela arredondada nos quatro cantos */
   overflow: hidden;
   border: 1px solid var(--cor-header-borda);
-  border-bottom: 0;
 }
 
 /* Barra superior com as três bolinhas e a "barra de endereço" */
@@ -1144,6 +1143,10 @@ a {
   .nav,
   .cta-top  { display: none; }
   .menu-btn { display: flex; }
+
+  /* Mockup do hero: cantos um pouco menores, proporcionais à tela pequena */
+  .mockup         { border-radius: 16px; }
+  .mockup-janela  { border-radius: 10px; }
 
   /* Card "Perfeita em qualquer tela": animação em cima, texto embaixo */
   .card--destaque {
