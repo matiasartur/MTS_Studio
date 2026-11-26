@@ -7,6 +7,19 @@
   <meta name="description" content="Criação de landing pages premium: design autoral, código rápido e foco em conversão.">
   <meta name="theme-color" content="#ffffff">
 
+  <!-- Aplica o tema (claro/escuro) antes da página aparecer, para não "piscar".
+       Usa a escolha salva; se não houver, segue o tema do sistema. -->
+  <script>
+    (function () {
+      var tema = null;
+      try { tema = localStorage.getItem('tema'); } catch (e) {}
+      if (tema !== 'claro' && tema !== 'escuro') {
+        tema = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro';
+      }
+      document.documentElement.setAttribute('data-tema', tema);
+    })();
+  </script>
+
   <!-- Ícone da aba do navegador -->
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -58,14 +71,32 @@
         <a href="#perguntas">Perguntas</a>
       </nav>
 
-      <a class="btn btn-escuro cta-top" href="#contato">Solicitar orçamento</a>
+      <div class="header-acoes">
+        <!-- Botão de tema: um único ícone que vira sol (modo escuro) ou lua (modo claro).
+             Lua = círculo grande com um "recorte" (máscara) por cima, sem raios.
+             Sol = círculo pequeno, recorte afastado e raios aparecendo. -->
+        <button class="tema-btn" id="temaBtn" aria-label="Ativar modo escuro" aria-pressed="false">
+          <svg class="tema-icone" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <mask id="tema-recorte">
+              <rect width="24" height="24" fill="white"/>
+              <circle class="tema-recorte-circulo" cx="12" cy="12" r="8" fill="black"/>
+            </mask>
+            <circle class="tema-miolo" cx="12" cy="12" r="9" fill="currentColor" mask="url(#tema-recorte)"/>
+            <g class="tema-raios" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77"/>
+            </g>
+          </svg>
+        </button>
 
-      <!-- Botão ☰ (aparece só no celular) -->
-      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="menuMobile">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#1d1d1f" stroke-width="1.5" aria-hidden="true">
-          <path d="M3 7h14M3 13h14"/>
-        </svg>
-      </button>
+        <a class="btn btn-escuro cta-top" href="#contato">Solicitar orçamento</a>
+
+        <!-- Botão ☰ (aparece só no celular) -->
+        <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="menuMobile">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M3 7h14M3 13h14"/>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <!-- Menu do celular: aparece ao tocar no botão ☰ -->

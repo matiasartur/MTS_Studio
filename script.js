@@ -2,6 +2,7 @@
 // MTS Studio — Scripts da página
 // 1. Menu do celular
 // 2. Carrossel de planos
+// 3. Modo escuro
 // =========================================================
 
 
@@ -158,4 +159,51 @@ for (var i = 0; i < links.length; i++) {
 
   atualizar();
   reiniciarTimer();
+})();
+
+
+// ---------- 3. Modo escuro ----------
+// O tema inicial já foi aplicado pelo script no <head> do index.html.
+// Aqui fica o botão lua/sol e o acompanhamento do tema do sistema.
+
+(function () {
+  var raiz = document.documentElement;
+  var botaoTema = document.getElementById('temaBtn');
+  var metaCor = document.querySelector('meta[name="theme-color"]');
+  var sistemaEscuro = window.matchMedia('(prefers-color-scheme: dark)');
+  if (!botaoTema) return;
+
+  // Aplica o tema e atualiza o botão e a cor da barra do navegador no celular
+  function aplicarTema(tema) {
+    raiz.setAttribute('data-tema', tema);
+    var escuro = tema === 'escuro';
+    botaoTema.setAttribute('aria-pressed', escuro ? 'true' : 'false');
+    botaoTema.setAttribute('aria-label', escuro ? 'Ativar modo claro' : 'Ativar modo escuro');
+    if (metaCor) metaCor.setAttribute('content', escuro ? '#000000' : '#ffffff');
+  }
+
+  // Liga uma transição suave das cores só durante a troca
+  function trocarComTransicao(tema) {
+    raiz.classList.add('trocando-tema');
+    aplicarTema(tema);
+    setTimeout(function () { raiz.classList.remove('trocando-tema'); }, 500);
+  }
+
+  function temaSalvo() {
+    try { return localStorage.getItem('tema'); } catch (e) { return null; }
+  }
+
+  // Clique no botão: inverte o tema e guarda a escolha
+  botaoTema.addEventListener('click', function () {
+    var novo = raiz.getAttribute('data-tema') === 'escuro' ? 'claro' : 'escuro';
+    trocarComTransicao(novo);
+    try { localStorage.setItem('tema', novo); } catch (e) {}
+  });
+
+  // Se a pessoa nunca escolheu, acompanha quando o sistema troca de tema
+  sistemaEscuro.addEventListener('change', function (e) {
+    if (!temaSalvo()) trocarComTransicao(e.matches ? 'escuro' : 'claro');
+  });
+
+  aplicarTema(raiz.getAttribute('data-tema') || 'claro');
 })();

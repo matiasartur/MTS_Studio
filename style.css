@@ -1,15 +1,16 @@
 /* =========================================================
-   Lumen Studio — Folha de estilos
+   MTS Studio — Folha de estilos
    ---------------------------------------------------------
    Índice
    1.  Variáveis (cores e medidas)
+   1b. Modo escuro
    2.  Base / reset
    3.  Animações
    4.  Utilitários e componentes comuns
    5.  Botões
    6.  Cabeçalho e menu
    7.  Hero (topo)
-   8.  Por que a Lumen
+   8.  Por que a MTS
    9.  Processo
    10. Recursos
    11. Planos
@@ -44,6 +45,21 @@
   --cor-azul:           #0071e3;
   --cor-link:           #0066cc;
 
+  /* Peças específicas (mudam no modo escuro) */
+  --cor-superficie:        #ffffff;              /* cards e janela do mockup */
+  --cor-superficie-linha:  #f0f0f2;
+  --cor-bolinha:           #e3e3e6;              /* bolinhas da janela do mockup */
+  --cor-header:            rgba(255, 255, 255, 0.72);
+  --cor-header-borda:      rgba(0, 0, 0, 0.06);
+  --cor-btn-escuro-fundo:  #1d1d1f;
+  --cor-btn-escuro-texto:  #ffffff;
+  --cor-aparelho:          #1d1d1f;              /* moldura do computador/tablet/celular */
+  --cor-aparelho-pe:       #d2d2d7;
+  --cor-card-escuro:       #1d1d1f;
+  --cor-sombra:            rgba(0, 0, 0, 0.08);
+
+  color-scheme: light;
+
   /* Medidas */
   --largura-conteudo:   1040px;
   --raio-pilula:        980px;
@@ -51,6 +67,53 @@
 
   /* Curva das animações */
   --suave: cubic-bezier(.2, .7, .2, 1);
+}
+
+
+/* ---------- 1b. Modo escuro ----------
+   Ativado quando o <html> recebe data-tema="escuro" (script no <head> + botão ☾).
+   Só as variáveis mudam; o resto do CSS se adapta sozinho. */
+:root[data-tema="escuro"] {
+  --cor-texto:          #f5f5f7;
+  --cor-texto-2:        #d2d2d7;
+  --cor-texto-suave:    #a1a1a6;
+  --cor-texto-apagado:  #86868b;
+
+  --cor-fundo:          #000000;
+  --cor-fundo-cinza:    #101012;
+  --cor-fundo-preto:    #161617; /* seções que já eram escuras ficam um pouco mais claras que o fundo */
+
+  --cor-linha:          #3a3a3c;
+  --cor-link:           #2997ff;
+
+  --cor-superficie:        #1d1d1f;
+  --cor-superficie-linha:  #2c2c2e;
+  --cor-bolinha:           #48484a;
+  --cor-header:            rgba(0, 0, 0, 0.72);
+  --cor-header-borda:      rgba(255, 255, 255, 0.1);
+  --cor-btn-escuro-fundo:  #f5f5f7; /* botão do cabeçalho inverte: fica claro */
+  --cor-btn-escuro-texto:  #1d1d1f;
+  --cor-aparelho:          #48484a;
+  --cor-aparelho-pe:       #636366;
+  --cor-card-escuro:       #000000;
+  --cor-sombra:            rgba(0, 0, 0, 0.6);
+
+  color-scheme: dark;
+}
+
+/* O plano "Profissional" continua claro no modo escuro, para seguir em destaque */
+:root[data-tema="escuro"] .plano--destaque {
+  --cor-texto:        #1d1d1f;
+  --cor-texto-2:      #424245;
+  --cor-texto-suave:  #6e6e73;
+  --cor-fundo-cinza:  #f5f5f7;
+  --cor-link:         #0066cc;
+}
+
+/* Transição suave das cores ao trocar de tema (o script liga por meio segundo) */
+.trocando-tema,
+.trocando-tema * {
+  transition: background-color .4s ease, color .4s ease, border-color .4s ease !important;
 }
 
 
@@ -195,8 +258,8 @@ a {
 
 /* Botão escuro pequeno do cabeçalho */
 .btn-escuro {
-  background: var(--cor-fundo-grafite);
-  color: #ffffff;
+  background: var(--cor-btn-escuro-fundo);
+  color: var(--cor-btn-escuro-texto);
   font-size: 13px;
   padding: 8px 16px;
 }
@@ -213,10 +276,79 @@ a {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(255, 255, 255, 0.72);
+  background: var(--cor-header);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid var(--cor-header-borda);
+}
+
+/* Grupo da direita: botão de tema + "Solicitar orçamento" + ☰ */
+.header-acoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Botão de tema (lua/sol) */
+.tema-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--cor-texto);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color .25s, transform .35s var(--suave);
+}
+
+.tema-btn:hover {
+  background: var(--cor-header-borda);
+  transform: rotate(-15deg);
+}
+
+/* --- Animação sol ⇄ lua ---
+   Estado padrão = LUA (modo claro). Com data-tema="escuro" = SOL.
+   As transições fazem a troca: o ícone dá uma volta, o miolo encolhe/cresce,
+   o recorte desliza e os raios giram e aparecem/somem. */
+.tema-icone,
+.tema-miolo,
+.tema-recorte-circulo,
+.tema-raios {
+  transform-origin: 12px 12px; /* centro do ícone */
+  transition:
+    transform .6s cubic-bezier(.34, 1.56, .64, 1), /* passa um pouco do ponto e volta */
+    opacity   .35s ease;
+}
+
+.tema-icone { transform-origin: center; } /* o <svg> gira pelo centro da própria caixa */
+
+/* Lua */
+.tema-icone           { transform: rotate(360deg); }
+.tema-miolo           { transform: scale(1); }
+.tema-recorte-circulo { transform: translate(6px, -6px); }      /* recorte "morde" o círculo */
+.tema-raios           { transform: rotate(-90deg) scale(.4); opacity: 0; }
+
+/* Sol */
+[data-tema="escuro"] .tema-icone           { transform: rotate(0deg); }
+[data-tema="escuro"] .tema-miolo           { transform: scale(.5); }
+[data-tema="escuro"] .tema-recorte-circulo { transform: translate(14px, -14px); } /* recorte sai de cima */
+[data-tema="escuro"] .tema-raios           { transform: rotate(0deg) scale(1); opacity: 1; transition-delay: .1s; }
+
+/* Durante a troca de tema, a transição de cores (abaixo) não pode apagar a do ícone */
+.trocando-tema .tema-btn svg,
+.trocando-tema .tema-btn svg * {
+  transition:
+    transform .6s cubic-bezier(.34, 1.56, .64, 1),
+    opacity   .35s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tema-icone, .tema-miolo, .tema-recorte-circulo, .tema-raios,
+  .trocando-tema .tema-btn svg, .trocando-tema .tema-btn svg * { transition: none !important; }
 }
 
 .header-inner {
@@ -267,6 +399,7 @@ a {
   height: 44px;
   border: 0;
   background: transparent;
+  color: var(--cor-texto);
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -311,7 +444,7 @@ a {
 
 /* "à altura." com degradê no texto */
 .texto-degrade {
-  background: linear-gradient(90deg, #1d1d1f 0%, #86868b 100%);
+  background: linear-gradient(90deg, var(--cor-texto) 0%, var(--cor-texto-apagado) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -333,14 +466,14 @@ a {
   border-radius: 24px;
   background: var(--cor-fundo-cinza);
   padding: 2.5% 2.5% 0;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 30px 80px var(--cor-sombra);
 }
 
 .mockup-janela {
-  background: #ffffff;
+  background: var(--cor-superficie);
   border-radius: 14px 14px 0 0;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--cor-header-borda);
   border-bottom: 0;
 }
 
@@ -351,14 +484,14 @@ a {
   align-items: center;
   gap: 7px;
   padding: 0 16px;
-  border-bottom: 1px solid #f0f0f2;
+  border-bottom: 1px solid var(--cor-superficie-linha);
 }
 
 .mockup-bolinha {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #e3e3e6;
+  background: var(--cor-bolinha);
 }
 
 .mockup-endereco {
@@ -438,7 +571,7 @@ a {
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #fafafa 0%, #a1a1a6 45%, #3a3a3c 100%);
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
-  animation: esfera-transforma 6s cubic-bezier(.7, 0, .3, 1) infinite;
+  animation: esfera-transforma 3.5s cubic-bezier(.7, 0, .3, 1) infinite;
 }
 
 /* Quadrado → gira rápido → círculo → gira rápido → quadrado (em loop)
@@ -460,7 +593,7 @@ a {
 }
 
 
-/* ---------- 8. Por que a Lumen ---------- */
+/* ---------- 8. Por que a MTS ---------- */
 .porque-title {
   max-width: 820px;
 }
@@ -532,7 +665,7 @@ a {
 }
 
 .card {
-  background: #ffffff;
+  background: var(--cor-superficie);
   border-radius: var(--raio-card);
   padding: 48px 40px;
 }
@@ -604,7 +737,7 @@ a {
 .aparelho {
   position: relative;
   display: flex;
-  background: var(--cor-fundo-grafite);
+  background: var(--cor-aparelho);
   animation: aparelho-muda var(--aparelho-tempo) var(--aparelho-curva) infinite;
 }
 
@@ -615,7 +748,7 @@ a {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--cor-linha);
+  background: var(--cor-aparelho-pe);
   animation: pe-monitor var(--aparelho-tempo) ease infinite;
 }
 
@@ -648,7 +781,7 @@ a {
   height: 6px;
   width: 40%;
   border-radius: 3px;
-  background: var(--cor-linha);
+  background: #d2d2d7; /* a telinha do aparelho é sempre clara */
 }
 
 .tela-banner {
@@ -713,7 +846,7 @@ a {
 
 /* Card escuro ("SEO desde a base") */
 .card--escuro {
-  background: var(--cor-fundo-grafite);
+  background: var(--cor-card-escuro);
   color: var(--cor-texto-claro);
 }
 
