@@ -1,0 +1,919 @@
+/* =========================================================
+   Lumen Studio — Folha de estilos
+   ---------------------------------------------------------
+   Índice
+   1.  Variáveis (cores e medidas)
+   2.  Base / reset
+   3.  Animações
+   4.  Utilitários e componentes comuns
+   5.  Botões
+   6.  Cabeçalho e menu
+   7.  Hero (topo)
+   8.  Por que a Lumen
+   9.  Processo
+   10. Recursos
+   11. Planos
+   12. Perguntas frequentes
+   13. Contato
+   14. Rodapé
+   15. Responsivo (celular)
+   ========================================================= */
+
+
+/* ---------- 1. Variáveis ---------- */
+:root {
+  /* Textos */
+  --cor-texto:          #1d1d1f;
+  --cor-texto-2:        #424245;
+  --cor-texto-suave:    #6e6e73;
+  --cor-texto-apagado:  #86868b;
+  --cor-texto-escuro:   #a1a1a6; /* texto secundário sobre fundo preto */
+  --cor-texto-claro:    #f5f5f7; /* texto principal sobre fundo preto */
+
+  /* Fundos */
+  --cor-fundo:          #ffffff;
+  --cor-fundo-cinza:    #f5f5f7;
+  --cor-fundo-preto:    #000000;
+  --cor-fundo-grafite:  #1d1d1f;
+
+  /* Linhas / bordas */
+  --cor-linha:          #d2d2d7;
+  --cor-linha-escura:   #333336;
+
+  /* Destaques */
+  --cor-azul:           #0071e3;
+  --cor-link:           #0066cc;
+
+  /* Medidas */
+  --largura-conteudo:   1040px;
+  --raio-pilula:        980px;
+  --raio-card:          24px;
+
+  /* Curva das animações */
+  --suave: cubic-bezier(.2, .7, .2, 1);
+}
+
+
+/* ---------- 2. Base / reset ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--cor-texto);
+  background: var(--cor-fundo);
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, p, ul {
+  margin: 0;
+}
+
+a {
+  color: var(--cor-link);
+  text-decoration: none;
+}
+
+
+/* ---------- 3. Animações ---------- */
+
+/* Elemento sobe e aparece */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Entrada ao carregar a página (com atrasos d1, d2, d3) */
+.rise { animation: rise 1.1s var(--suave) both; }
+.d1   { animation-delay: .12s; }
+.d2   { animation-delay: .24s; }
+.d3   { animation-delay: .4s; }
+
+/* Entrada ao rolar até o elemento (navegadores compatíveis) */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 28%;
+  }
+}
+
+/* Leve zoom ao passar o mouse */
+.zoom       { transition: transform 1.2s var(--suave); }
+.zoom:hover { transform: scale(1.015); }
+
+
+/* ---------- 4. Utilitários e componentes comuns ---------- */
+.container {
+  max-width: var(--largura-conteudo);
+  margin: 0 auto;
+}
+
+.section {
+  padding: 140px 24px;
+  background: var(--cor-fundo);
+}
+
+.section--escura {
+  background: var(--cor-fundo-preto);
+  color: var(--cor-texto-claro);
+}
+
+.section--cinza {
+  background: var(--cor-fundo-cinza);
+}
+
+/* Texto pequeno acima dos títulos */
+.eyebrow {
+  margin-bottom: 16px;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--cor-texto-suave);
+}
+
+.section--escura .eyebrow {
+  color: var(--cor-texto-apagado);
+}
+
+/* Título grande de seção */
+.section-title {
+  font-size: clamp(36px, 5.6vw, 64px);
+  line-height: 1.06;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+/* Cabeçalho de seção centralizado */
+.section-header {
+  text-align: center;
+  margin-bottom: 88px;
+}
+
+/* Parte do título em cinza */
+.texto-apagado {
+  color: var(--cor-texto-apagado);
+}
+
+/* Grupo de botões lado a lado */
+.acoes {
+  margin-top: 40px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+/* ---------- 5. Botões ---------- */
+.btn {
+  font-weight: 500;
+  border-radius: var(--raio-pilula);
+  transition: transform .35s var(--suave), background-color .3s, color .3s;
+}
+
+.btn:hover {
+  transform: scale(1.03);
+}
+
+/* Botão azul principal */
+.btn-primario {
+  background: var(--cor-azul);
+  color: #ffffff;
+  font-size: 17px;
+  padding: 14px 28px;
+}
+
+/* Botão só com texto azul ("Ver como funciona ›") */
+.btn-texto {
+  color: var(--cor-link);
+  font-size: 17px;
+  padding: 14px 20px;
+}
+
+/* Botão escuro pequeno do cabeçalho */
+.btn-escuro {
+  background: var(--cor-fundo-grafite);
+  color: #ffffff;
+  font-size: 13px;
+  padding: 8px 16px;
+}
+
+/* Botão com contorno (usado nos planos sobre fundo preto) */
+.btn-contorno {
+  border: 1px solid var(--cor-texto-claro);
+  color: var(--cor-texto-claro);
+}
+
+
+/* ---------- 6. Cabeçalho e menu ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.header-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.logo {
+  color: var(--cor-texto);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-marca {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background: var(--cor-texto);
+  display: inline-block;
+}
+
+/* Menu do computador */
+.nav {
+  display: flex;
+  gap: 32px;
+  font-size: 13px;
+}
+
+.nav a {
+  color: var(--cor-texto-2);
+  transition: color .25s;
+}
+
+/* Botão ☰ (só aparece no celular) */
+.menu-btn {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Menu do celular (aberto/fechado via script.js) */
+.menu-mobile {
+  display: none;
+  flex-direction: column;
+  padding: 8px 24px 24px;
+}
+
+.menu-mobile a {
+  color: var(--cor-texto);
+  font-size: 24px;
+  font-weight: 600;
+  padding: 12px 0;
+  letter-spacing: -0.02em;
+}
+
+.menu-mobile.aberto {
+  display: flex;
+}
+
+
+/* ---------- 7. Hero (topo) ---------- */
+.hero {
+  padding: 120px 24px 96px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-title {
+  margin: 0 auto;
+  max-width: 900px;
+  font-size: clamp(44px, 7.2vw, 88px);
+  line-height: 1.04;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+}
+
+/* "à altura." com degradê no texto */
+.texto-degrade {
+  background: linear-gradient(90deg, #1d1d1f 0%, #86868b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-subtitle {
+  margin: 24px auto 0;
+  max-width: 560px;
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.45;
+  color: var(--cor-texto-suave);
+  font-weight: 400;
+}
+
+/* --- Ilustração: janela de navegador com uma página fictícia --- */
+.mockup {
+  margin: 80px auto 0;
+  max-width: 1040px;
+  border-radius: 24px;
+  background: var(--cor-fundo-cinza);
+  padding: 2.5% 2.5% 0;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.08);
+}
+
+.mockup-janela {
+  background: #ffffff;
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 0;
+}
+
+/* Barra superior com as três bolinhas e a "barra de endereço" */
+.mockup-barra {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 16px;
+  border-bottom: 1px solid #f0f0f2;
+}
+
+.mockup-bolinha {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e3e3e6;
+}
+
+.mockup-endereco {
+  margin: 0 auto;
+  width: 38%;
+  height: 18px;
+  border-radius: 6px;
+  background: var(--cor-fundo-cinza);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--cor-texto-apagado);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.mockup-corpo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-height: 360px;
+}
+
+/* Lado esquerdo: textos do "mini site" (os tamanhos acompanham a largura da tela) */
+.mockup-texto {
+  padding: 12% 10%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(6px, 1.2vw, 14px);
+  justify-content: center;
+}
+
+.mini-rotulo {
+  font-size: clamp(8px, 1.1vw, 13px);
+  font-weight: 600;
+  color: var(--cor-texto-apagado);
+}
+
+.mini-titulo {
+  font-size: clamp(16px, 3.4vw, 38px);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--cor-texto);
+}
+
+.mini-descricao {
+  max-width: 90%;
+  font-size: clamp(8px, 1.2vw, 14px);
+  line-height: 1.45;
+  color: var(--cor-texto-suave);
+}
+
+.mini-botao {
+  margin-top: clamp(4px, 0.8vw, 10px);
+  padding: clamp(5px, 0.8vw, 9px) clamp(10px, 1.6vw, 18px);
+  border-radius: var(--raio-pilula);
+  background: var(--cor-azul);
+  color: #ffffff;
+  font-size: clamp(8px, 1.1vw, 13px);
+  font-weight: 500;
+}
+
+/* Lado direito: fundo escuro com uma esfera */
+.mockup-imagem {
+  background: radial-gradient(120% 90% at 70% 30%, #2c2c2e 0%, #0b0b0c 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mockup-esfera {
+  width: 46%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fafafa 0%, #a1a1a6 45%, #3a3a3c 100%);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+  animation: esfera-transforma 6s cubic-bezier(.7, 0, .3, 1) infinite;
+}
+
+/* Quadrado → gira rápido → círculo → gira rápido → quadrado (em loop)
+    0% – 25%  quadrado parado
+   25% – 40%  gira uma volta e vira círculo
+   40% – 65%  círculo, flutuando
+   65% – 80%  gira de volta e vira quadrado
+   80% – 100% quadrado parado */
+@keyframes esfera-transforma {
+  0%, 25%   { border-radius: 14%; transform: translateY(0) rotate(0deg); }
+  40%       { border-radius: 50%; transform: translateY(0) rotate(360deg); }
+  52%       { border-radius: 50%; transform: translateY(-14px) rotate(360deg); }
+  65%       { border-radius: 50%; transform: translateY(0) rotate(360deg); }
+  80%, 100% { border-radius: 14%; transform: translateY(0) rotate(720deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mockup-esfera { animation: none; }
+}
+
+
+/* ---------- 8. Por que a Lumen ---------- */
+.porque-title {
+  max-width: 820px;
+}
+
+.diferenciais {
+  margin-top: 96px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 56px 48px;
+}
+
+.diferencial {
+  border-top: 1px solid var(--cor-linha-escura);
+  padding-top: 28px;
+}
+
+.diferencial h3 {
+  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.diferencial p {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--cor-texto-escuro);
+}
+
+
+/* ---------- 9. Processo ---------- */
+.etapas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 48px 40px;
+}
+
+.etapa-numero {
+  margin-bottom: 20px;
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--cor-linha);
+  letter-spacing: -0.04em;
+}
+
+.etapa h3 {
+  margin-bottom: 10px;
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.etapa p:last-child {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--cor-texto-suave);
+}
+
+
+/* ---------- 10. Recursos ---------- */
+.recursos-title {
+  margin-bottom: 72px;
+  max-width: 720px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: var(--raio-card);
+  padding: 48px 40px;
+}
+
+.card h3 {
+  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.card p {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--cor-texto-suave);
+}
+
+/* Card que ocupa a linha inteira, com texto no rodapé do card */
+.card--largo {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Card de destaque ("Perfeita em qualquer tela.") */
+.card--destaque {
+  min-height: 220px;
+}
+
+.card--destaque h3 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.card--destaque p {
+  max-width: 480px;
+}
+
+/* Texto à esquerda, animação à direita (no celular, a animação fica em cima) */
+.card--destaque {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "texto aparelho";
+  align-items: end;
+  gap: 32px;
+}
+
+.card--destaque .card-texto    { grid-area: texto; }
+.card--destaque .aparelho-palco { grid-area: aparelho; }
+
+/* --- Animação: computador que vira tablet e depois celular --- */
+
+/* Área de tamanho fixo: o card não "pula" enquanto o aparelho muda */
+.aparelho-palco {
+  /* Ajuste aqui a velocidade e o "pulo" da animação */
+  --aparelho-tempo: 4.5s;                              /* duração de um ciclo completo */
+  --aparelho-curva: cubic-bezier(.68, -0.4, .27, 1.4); /* passa um pouco do ponto e volta (efeito mola) */
+
+  width: 280px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Moldura escura do aparelho (as medidas mudam na animação) */
+.aparelho {
+  position: relative;
+  display: flex;
+  background: var(--cor-fundo-grafite);
+  animation: aparelho-muda var(--aparelho-tempo) var(--aparelho-curva) infinite;
+}
+
+/* Pé do monitor: haste (::before) e base (::after), só visíveis no modo computador */
+.aparelho::before,
+.aparelho::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--cor-linha);
+  animation: pe-monitor var(--aparelho-tempo) ease infinite;
+}
+
+.aparelho::before {
+  top: 100%;
+  width: 28px;
+  height: 16px;
+}
+
+.aparelho::after {
+  top: calc(100% + 16px);
+  width: 96px;
+  height: 5px;
+  border-radius: 3px;
+}
+
+/* Tela branca com uma "página" dentro */
+.aparelho-tela {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 7px;
+  background: #ffffff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tela-menu {
+  height: 6px;
+  width: 40%;
+  border-radius: 3px;
+  background: var(--cor-linha);
+}
+
+.tela-banner {
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: radial-gradient(120% 90% at 70% 30%, #2c2c2e 0%, #0b0b0c 70%);
+}
+
+/* Blocos que se reorganizam: 3 por linha → 2 → 1, conforme a tela encolhe */
+.tela-grade {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tela-grade span {
+  flex: 1 1 48px;
+  height: 18px;
+  border-radius: 3px;
+  background: #e8e8ed;
+}
+
+.tela-grade span:first-child {
+  background: var(--cor-azul);
+}
+
+/* Cada aparelho fica parado um instante e depois "salta" para o próximo,
+   com um leve giro e pulo no meio da troca.
+    0% – 20%  computador
+   33% – 53%  tablet
+   66% – 86%  celular
+  100%        volta ao computador */
+@keyframes aparelho-muda {
+  0%, 20%, 100% { width: 250px; height: 150px; padding: 6px; border-radius: 10px; transform: none; }
+  27%           { transform: translateY(-10px) rotate(-4deg); }
+  33%, 53%      { width: 104px; height: 140px; padding: 6px; border-radius: 14px; transform: none; }
+  60%           { transform: translateY(-10px) rotate(4deg); }
+  66%, 86%      { width: 60px;  height: 120px; padding: 4px; border-radius: 14px; transform: none; }
+  93%           { transform: translateY(-10px) scale(1.04); }
+}
+
+@keyframes pe-monitor {
+  0%, 18%, 100% { opacity: 1; }
+  24%, 94%      { opacity: 0; }
+}
+
+/* Quem prefere menos movimento vê só o computador parado */
+@media (prefers-reduced-motion: reduce) {
+  .aparelho,
+  .aparelho::before,
+  .aparelho::after {
+    animation: none;
+  }
+  .aparelho {
+    width: 250px;
+    height: 150px;
+    padding: 6px;
+    border-radius: 10px;
+  }
+}
+
+/* Card escuro ("SEO desde a base") */
+.card--escuro {
+  background: var(--cor-fundo-grafite);
+  color: var(--cor-texto-claro);
+}
+
+.card--escuro p {
+  color: var(--cor-texto-escuro);
+}
+
+
+/* ---------- 11. Planos ---------- */
+.planos-header {
+  margin-bottom: 80px;
+}
+
+.planos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.plano {
+  border: 1px solid var(--cor-linha-escura);
+  border-radius: var(--raio-card);
+  padding: 44px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.plano h3 {
+  margin-bottom: 8px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.plano-descricao {
+  font-size: 15px;
+  color: var(--cor-texto-escuro);
+}
+
+.plano-preco {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.plano-itens {
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--cor-texto-escuro);
+}
+
+.plano-btn {
+  margin-top: auto; /* empurra o botão para o fim do card */
+  text-align: center;
+  font-size: 15px;
+  padding: 12px 20px;
+}
+
+/* Plano em destaque ("Profissional") */
+.plano--destaque {
+  border: 0;
+  background: var(--cor-fundo-cinza);
+  color: var(--cor-texto);
+}
+
+.plano--destaque .plano-descricao { color: var(--cor-texto-suave); }
+.plano--destaque .plano-itens     { color: var(--cor-texto-2); }
+
+.plano-selo {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cor-link);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+
+/* ---------- 12. Perguntas frequentes ---------- */
+.faq-container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.faq-title {
+  margin-bottom: 56px;
+  font-size: clamp(32px, 4.6vw, 48px);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  text-align: center;
+}
+
+.faq-lista {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-item {
+  border-top: 1px solid var(--cor-linha);
+  padding: 28px 0;
+}
+
+.faq-item:last-child {
+  border-bottom: 1px solid var(--cor-linha);
+}
+
+.faq-item h3 {
+  margin-bottom: 8px;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.faq-item p {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--cor-texto-suave);
+}
+
+
+/* ---------- 13. Contato ---------- */
+.contato {
+  padding: 160px 24px;
+  background: var(--cor-fundo-cinza);
+  text-align: center;
+}
+
+.contato-inner {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.contato-title {
+  font-size: clamp(40px, 6.4vw, 80px);
+  line-height: 1.04;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+}
+
+.contato-texto {
+  margin: 24px auto 0;
+  max-width: 520px;
+  font-size: 21px;
+  line-height: 1.45;
+  color: var(--cor-texto-suave);
+}
+
+
+/* ---------- 14. Rodapé ---------- */
+.site-footer {
+  background: var(--cor-fundo-cinza);
+  padding: 0 24px 40px;
+}
+
+.footer-inner {
+  max-width: var(--largura-conteudo);
+  margin: 0 auto;
+  border-top: 1px solid var(--cor-linha);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--cor-texto-suave);
+}
+
+.footer-nav {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-nav a {
+  color: var(--cor-texto-2);
+}
+
+
+/* ---------- 15. Responsivo (celular) ---------- */
+
+/* Telas grandes: o menu do celular nunca aparece */
+@media (min-width: 761px) {
+  .menu-mobile.aberto { display: none; }
+}
+
+/* Telas pequenas: esconde o menu do computador e mostra o botão ☰ */
+@media (max-width: 760px) {
+  .nav,
+  .cta-top  { display: none; }
+  .menu-btn { display: flex; }
+
+  /* Card "Perfeita em qualquer tela": animação em cima, texto embaixo */
+  .card--destaque {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "aparelho"
+      "texto";
+  }
+  .card--destaque .aparelho-palco {
+    width: 100%;
+  }
+}
