@@ -784,6 +784,111 @@ a {
 .plano--destaque .plano-descricao { color: var(--cor-texto-suave); }
 .plano--destaque .plano-itens     { color: var(--cor-texto-2); }
 
+/* --- Carrossel de planos ---
+   Só é ativado quando o script.js adiciona a classe "carrossel-ativo".
+   Sem JavaScript, os planos continuam lado a lado (grade acima). */
+.planos.carrossel-ativo {
+  --carrossel-curva: cubic-bezier(.65, 0, .35, 1); /* ease-in-out: começa e termina devagar */
+  --carrossel-tempo: .9s;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: hidden;      /* corta os cards laterais nas bordas */
+  padding: 24px 0;
+  touch-action: pan-y;   /* permite arrastar para os lados no celular */
+}
+
+/* Todos os cards ficam empilhados no mesmo lugar; o --pos (-1, 0, 1) os afasta */
+.carrossel-ativo .plano {
+  grid-area: 1 / 1;
+  justify-self: center;
+  width: min(340px, 80%);
+  box-sizing: border-box;
+  background: var(--cor-fundo-preto); /* fundo sólido para um card não aparecer atrás do outro */
+  transform: translateX(calc(var(--pos, 0) * 106%)) scale(.86);
+  opacity: .4;
+  z-index: 1;
+  cursor: pointer;
+  transition:
+    transform var(--carrossel-tempo) var(--carrossel-curva),
+    opacity   var(--carrossel-tempo) var(--carrossel-curva);
+}
+
+.carrossel-ativo .plano--destaque {
+  background: var(--cor-fundo-cinza);
+}
+
+/* Card do centro: tamanho normal e opaco */
+.carrossel-ativo .plano.is-ativo {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  z-index: 2;
+  cursor: auto;
+}
+
+/* Cards além dos vizinhos (se houver mais de 3 planos) ficam invisíveis */
+.carrossel-ativo .plano.is-escondido {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Setas e bolinhas */
+.carrossel-controles {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.carrossel-controles[hidden] {
+  display: none;
+}
+
+.carrossel-seta {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--cor-linha-escura);
+  background: transparent;
+  color: var(--cor-texto-claro);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color .3s, transform .35s var(--suave);
+}
+
+.carrossel-seta:hover {
+  background: var(--cor-linha-escura);
+  transform: scale(1.06);
+}
+
+.carrossel-pontos {
+  display: flex;
+  gap: 8px;
+}
+
+.carrossel-ponto {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--raio-pilula);
+  background: var(--cor-linha-escura);
+  cursor: pointer;
+  transition: width .5s var(--suave), background-color .5s;
+}
+
+/* Bolinha do plano atual vira um tracinho */
+.carrossel-ponto.is-ativo {
+  width: 24px;
+  background: var(--cor-texto-claro);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planos.carrossel-ativo { --carrossel-tempo: .01s; }
+}
+
 .plano-selo {
   margin-bottom: 8px;
   font-size: 12px;
